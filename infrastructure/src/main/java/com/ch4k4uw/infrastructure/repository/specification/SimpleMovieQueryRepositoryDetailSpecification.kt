@@ -1,0 +1,5 @@
+package com.ch4k4uw.infrastructure.repository.specification
+
+import com.ch4k4uw.domain.common.abstraction.repository.specification.MovieQueryRepositoryDetailSpecification
+
+class SimpleMovieQueryRepositoryDetailSpecification(override val id2: String) : MovieQueryRepositoryDetailSpecification

@@ -1,0 +1,12 @@
+apply plugin: 'java-library'
+apply plugin: 'kotlin'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "com.google.dagger:dagger:$versions.dagger"
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.2.60'
+    compileOnly 'javax.annotation:javax.annotation-api:1.2'
+}
+
+sourceCompatibility = "1.7"
+targetCompatibility = "1.7"
