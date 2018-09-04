@@ -8,6 +8,6 @@ import com.ch4k4uw.domain.moviecatalog.command.SimpleMovieCatalogQuery
 import javax.inject.Inject
 
 class SimpleMovieCatalogCommandFactory @Inject constructor(private val repository: MovieQueryRepository, private val specFactory: MovieQueryRepositorySpecificationFactory): MovieCatalogCommandFactory {
-    override fun newQuery(title: String, page: Int): MovieCatalogQuery
-            = SimpleMovieCatalogQuery(title, page, repository, specFactory)
+    override fun newQuery(title: String, typeId: Long?, year: Int?, page: Int): MovieCatalogQuery
+            = SimpleMovieCatalogQuery(title, typeId, year, page, repository, specFactory)
 }
