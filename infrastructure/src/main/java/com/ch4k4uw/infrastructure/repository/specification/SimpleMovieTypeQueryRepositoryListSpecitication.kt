@@ -2,5 +2,4 @@ package com.ch4k4uw.infrastructure.repository.specification
 
 import com.ch4k4uw.domain.moviecatalog.abstraction.repository.specification.MovieTypeQueryRepositoryListSpecitication
 
-class SimpleMovieTypeQueryRepositoryListSpecitication: MovieTypeQueryRepositoryListSpecitication {
-}
+class SimpleMovieTypeQueryRepositoryListSpecitication: MovieTypeQueryRepositoryListSpecitication

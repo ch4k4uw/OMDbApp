@@ -4,6 +4,7 @@ import com.ch4k4uw.domain.abstraction.scheduler.SchedulerProvider
 import io.reactivex.ObservableTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
 class SimpleSchedulerProvider {
     companion object {
@@ -39,5 +40,15 @@ class SimpleSchedulerProvider {
                     }
 
         }
+    }
+
+    class SimpleAndroidSchedulerProvider @Inject constructor(): SchedulerProvider {
+        override fun <T> applySchedulers(): ObservableTransformer<T, T> =
+                ObservableTransformer { upstream ->
+                    upstream
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribeOn(AndroidSchedulers.mainThread())
+                }
+
     }
 }
