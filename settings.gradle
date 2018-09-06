@@ -1,1 +1,1 @@
-include ':app', ':domain.abstraction', ':domain.moviecatalog.abstraction', ':domain.moviedetail.abstraction', ':domain.common.abstraction', ':crosscutting.scope', ':domain.common', ':domain.moviecatalog', ':infrastructure', ':infrastructure.abstraction', ':application', ':crosscutting'
+include ':app', ':domain.abstraction', ':domain.moviecatalog.abstraction', ':domain.common.abstraction', ':crosscutting.scope', ':domain.common', ':domain.moviecatalog', ':infrastructure', ':infrastructure.abstraction', ':application', ':crosscutting'

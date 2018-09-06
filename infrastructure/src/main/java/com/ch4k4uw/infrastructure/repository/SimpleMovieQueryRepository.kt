@@ -78,10 +78,10 @@ class SimpleMovieQueryRepository @Inject constructor(
                             rawDetail.Poster ?: "",
                             ratings,
                             rawDetail.Metascore ?: "",
-                            if (!rawDetail.imdbRating.isNullOrBlank()) rawDetail.imdbRating?.toFloat() ?: 0f else 0f,
-                            if (!rawDetail.imdbVotes.isNullOrBlank()) rawDetail.imdbVotes?.replace(",", "")?.toInt() ?: 0 else 0,
+                            if (!rawDetail.imdbRating.isNullOrBlank()) try { rawDetail.imdbRating?.toFloat() } catch(_:Exception) { 0f } ?: 0f else 0f,
+                            if (!rawDetail.imdbVotes.isNullOrBlank()) try { rawDetail.imdbVotes?.replace(",", "")?.toInt() } catch (_:Exception) { 0 } ?: 0 else 0,
                             movieTypeEntity,
-                            if (!rawDetail.totalSeasons.isNullOrBlank()) rawDetail.totalSeasons?.toInt() ?: 0 else 0
+                            if (!rawDetail.totalSeasons.isNullOrBlank()) try { rawDetail.totalSeasons?.toInt() } catch (_:Exception) { 0 } ?: 0 else 0
                     )
 
                     success(result)

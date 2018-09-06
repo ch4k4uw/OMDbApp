@@ -1,6 +1,8 @@
 package com.ch4k4uw.application.dto.result
 
-class Rating(source: String, value: String) {
+import java.io.Serializable
+
+class Rating(source: String, value: String): Serializable, Cloneable {
     constructor(): this("", "")
 
     var source: String = source

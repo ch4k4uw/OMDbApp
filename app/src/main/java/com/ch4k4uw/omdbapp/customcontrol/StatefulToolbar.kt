@@ -97,6 +97,8 @@ class StatefulToolbar : Toolbar {
                         pendingStates = null
                     }
 
+                    clearFocus()
+
                     val visibilityStates = savedState.menuItemsVisibility.size()
                     if (visibilityStates > 0) {
                         for (i in 0 until visibilityStates) {

@@ -50,6 +50,8 @@ class SimpleMainPresenter @Inject constructor(
         }
         if(mMovieTypes.isNotEmpty()) {
             mView?.setMovieTypesList(mMovieTypes)
+        } else {
+            loadMovieTypes()
         }
     }
 

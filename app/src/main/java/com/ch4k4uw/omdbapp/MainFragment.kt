@@ -1,10 +1,6 @@
 package com.ch4k4uw.omdbapp
 
-import android.app.Dialog
-import android.content.Context
 import android.os.Bundle
-import android.support.v4.app.DialogFragment
-import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SearchView
@@ -21,13 +17,11 @@ import com.ch4k4uw.omdbapp.mvp.mainfragment.abstraction.MainPresenter
 import com.ch4k4uw.omdbapp.mvp.mainfragment.abstraction.MainView
 import javax.inject.Inject
 import android.app.Activity
-import android.os.Looper
-import android.text.InputType
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
-import android.util.DisplayMetrics
-import android.util.TypedValue
-import android.view.inputmethod.EditorInfo
+import com.ch4k4uw.omdbapp.mvp.detailfragment.DetailFragment
+import com.ch4k4uw.omdbapp.mvp.mainfragment.FilterOptionsFragmentDialog
+import com.ch4k4uw.omdbapp.mvp.mainfragment.MovieReleaseYearFragmentDialog
+import com.ch4k4uw.omdbapp.mvp.mainfragment.MovieTypeFragmentDialog
 
 
 @FragmentScoped
@@ -72,11 +66,8 @@ class MainFragment: AppFragment(), MainView {
 
         configRecyclerView()
 
-        if(savedInstanceState != null) {
-            presenter.updateView()
-        } else {
-            presenter.loadMovieTypes()
-        }
+        presenter.updateView()
+
 
     }
 
@@ -87,44 +78,14 @@ class MainFragment: AppFragment(), MainView {
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         inflater?.inflate(R.menu.main_menu, menu)
-        val searchItem = menu?.findItem(R.id.action_search)
-        val searchView = searchItem?.actionView as SearchView?
-
-        searchView?.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                searchView.clearFocus()
-                return true
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                presenter.search(newText ?: "")
-                return true
-            }
-
-        })
-        searchItem?.setOnActionExpandListener(object: MenuItem.OnActionExpandListener {
-            override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
-                return true
-            }
-
-            override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
-                presenter.clearSearch()
-                return true
-            }
-
-        })
-        searchView?.setOnQueryTextFocusChangeListener { v, hasFocus ->
-            if(!hasFocus) {
-                val inputMethodManager = activity?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager?
-                inputMethodManager?.hideSoftInputFromWindow(v?.windowToken, 0)
-            }
-        }
+        configActionBar(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when(item?.itemId) {
             R.id.action_adv_filter ->
                 filterOptionsDialog.show((activity as AppCompatActivity).supportFragmentManager, "filter_options")
+            android.R.id.home -> activity?.finish()
         }
 
         return super.onOptionsItemSelected(item)
@@ -173,12 +134,36 @@ class MainFragment: AppFragment(), MainView {
     override fun showMovieDetails(movie: MovieDetail) {
         Toast.makeText(activity, movie.title, Toast.LENGTH_SHORT)
                 .show()
+        val fragment = DetailFragment()
+        val args = Bundle()
+        args.putSerializable("details", movie)
+
+        fragment.arguments = args
+
+        fragmentManager
+                ?.beginTransaction()
+                ?.setCustomAnimations(
+                        R.anim.slide_in_right,
+                        R.anim.slide_out_left,
+                        android.R.anim.slide_in_left,
+                        android.R.anim.slide_out_right
+                )
+                ?.replace(R.id.fragment_container, fragment, "detail_fragment")
+                ?.addToBackStack(null)
+                ?.commit()
+
     }
 
+    /**
+     *
+     */
     private val listItemClick = { movie: Movie ->
         presenter.detailMovie(movie)
     }
 
+    /**
+     *
+     */
     private fun configRecyclerView() {
         val lm = StaggeredGridLayoutManager(resources.getInteger(R.integer.list_columns_count), StaggeredGridLayoutManager.VERTICAL)
         lm.gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
@@ -212,132 +197,42 @@ class MainFragment: AppFragment(), MainView {
 
     }
 
-    class FilterOptionsFragmentDialog: DialogFragment() {
-        var onFilterTypeSelected = { _:Int -> }
+    /**
+     *
+     */
+    private fun configActionBar(menu: Menu?) {
+        val searchItem = menu?.findItem(R.id.action_search)
+        val searchView = searchItem?.actionView as SearchView?
 
-        override fun onCreate(savedInstanceState: Bundle?) {
-            super.onCreate(savedInstanceState)
-            retainInstance = true
-        }
-
-        override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-            return AlertDialog
-                    .Builder(activity as Context)
-                    .setTitle(R.string.filter_dialog_options_title)
-                    .setItems(R.array.filter_dialog_options) { dialog, which ->
-                        onFilterTypeSelected(which)
-                        dialog.dismiss()
-                    }
-                    .create()
-        }
-
-        override fun onDestroyView() {
-            if(dialog != null && retainInstance) {
-                dialog.setDismissMessage(null)
+        searchView?.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                searchView.clearFocus()
+                return true
             }
-            super.onDestroyView()
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                presenter.search(newText ?: "")
+                return true
+            }
+
+        })
+        searchItem?.setOnActionExpandListener(object: MenuItem.OnActionExpandListener {
+            override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
+                return true
+            }
+
+            override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
+                presenter.clearSearch()
+                return true
+            }
+
+        })
+        searchView?.setOnQueryTextFocusChangeListener { v, hasFocus ->
+            if(!hasFocus) {
+                val inputMethodManager = activity?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager?
+                inputMethodManager?.hideSoftInputFromWindow(v?.windowToken, 0)
+            }
         }
     }
 
-    class MovieReleaseYearFragmentDialog: DialogFragment() {
-        var onYearConfirmed = {_:Int?->}
-        private var lastYear = ""
-        override fun onCreate(savedInstanceState: Bundle?) {
-            super.onCreate(savedInstanceState)
-            retainInstance = true
-        }
-
-        override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-            val displaymetrics = DisplayMetrics()
-            val text = EditText(activity)
-            text.hint = getString(R.string.year_dialog_hint)
-            text.setText(lastYear)
-            text.inputType = InputType.TYPE_CLASS_NUMBER
-            text.setSelectAllOnFocus(true)
-
-            val confirm = {
-                lastYear = text.text.toString()
-                if(lastYear.isNotBlank()) {
-                    onYearConfirmed(lastYear.toInt())
-                } else {
-                    onYearConfirmed(null)
-                }
-            }
-
-            text.setOnEditorActionListener { v, actionId, event ->
-                if(actionId == EditorInfo.IME_ACTION_DONE) {
-                    confirm()
-                    dialog.dismiss()
-                }
-
-                true
-            }
-
-            val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            Looper.myQueue().addIdleHandler {
-                imm.showSoftInput(text, 0)
-                false
-            }
-
-            text.minWidth = TypedValue.applyDimension( TypedValue.COMPLEX_UNIT_DIP, 50f, displaymetrics).toInt()
-            return AlertDialog
-                    .Builder(context!!)
-                    .setView(text)
-                    .setPositiveButton(R.string.confirm_button) { dialog, _ ->
-                        confirm()
-                        dialog.dismiss()
-                    }
-                    .setNegativeButton(R.string.cancel_button) { dialog, _ ->
-                        dialog.dismiss()
-                    }
-                    .create()
-        }
-
-        override fun onDestroyView() {
-            if(dialog != null && retainInstance) {
-                dialog.setDismissMessage(null)
-            }
-            super.onDestroyView()
-        }
-    }
-
-    class MovieTypeFragmentDialog: DialogFragment() {
-        var onMovieTypeSelected = { _: Long -> }
-        var dataSource: () -> List<MovieType> = { listOf() }
-        var lastSelection = 0
-
-        override fun onCreate(savedInstanceState: Bundle?) {
-            super.onCreate(savedInstanceState)
-            retainInstance = true
-
-        }
-
-        override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-            val rawOptions = arrayListOf(MovieType(0L, getString(R.string.movie_type_filter_all_option)))
-            rawOptions.addAll(dataSource())
-
-            val options = rawOptions.map { it.name }.toTypedArray()
-
-            return if(options.isNotEmpty()) {
-                AlertDialog
-                        .Builder(activity as Context)
-                        .setTitle(R.string.movie_type_dialog_title)
-                        .setSingleChoiceItems(options, lastSelection) { dialog, which ->
-                            dialog.dismiss()
-                            onMovieTypeSelected(rawOptions[which].id)
-                            lastSelection = which
-                        }
-                        .create()
-            } else {
-                super.onCreateDialog(savedInstanceState)
-            }
-        }
-
-        override fun onDestroyView() {
-            if(dialog != null && retainInstance) {
-                dialog.setDismissMessage(null)
-            }
-            super.onDestroyView()
-        }
-    }
 }
