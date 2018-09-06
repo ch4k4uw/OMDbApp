@@ -28,7 +28,7 @@ class SimpleMovieQueryRepository @Inject constructor(
         private val entityFactory: CommonEntityFactory,
         private val valueFactory: CommonValueFactory) : MovieQueryRepository {
 
-    private val dateFormat: DateFormat = SimpleDateFormat("DD MMM yyyy", Locale.getDefault())
+    private val dateFormat: DateFormat = SimpleDateFormat("DD MMM yyyy", Locale.US)
 
     override fun getById(spec: ByIdRepositorySpecification<MovieEntity, Long>, success: (MovieEntity) -> Unit, error: (Throwable) -> Unit) {
         if(spec is MovieQueryRepositoryDetailSpecification) {
@@ -36,19 +36,23 @@ class SimpleMovieQueryRepository @Inject constructor(
                 val actors = arrayListOf<MovieActorValue>()
                 val ratings = arrayListOf<MovieRatingValue>()
 
-                val rawActors = rawDetail.Actors.split(",")
+                val rawActors = rawDetail.Actors?.split(",") ?: listOf()
                 rawActors.forEach { rawActor ->
                     actors.add(valueFactory.newMovieActorValue(rawActor))
                 }
 
-                rawDetail.Ratings.forEach { rating ->
-                    ratings.add(valueFactory.newMovieRatingValue(rating.Source, rating.Value))
+                rawDetail.Ratings?.forEach { rating ->
+                    ratings.add(valueFactory.newMovieRatingValue(rating.Source ?: "", rating.Value ?: ""))
                 }
 
                 val returnResultStep: (MovieTypeEntity) -> Unit = { movieTypeEntity ->
                     val rawDate =
-                            if (rawDetail.Released.isNotBlank())
-                                dateFormat.parse(rawDetail.Released)
+                            if (!rawDetail.Released.isNullOrBlank())
+                                try {
+                                    dateFormat.parse(rawDetail.Released)
+                                } catch (_: Exception) {
+                                    Date(0)
+                                }
                             else
                                 Date(0)
 
@@ -56,36 +60,36 @@ class SimpleMovieQueryRepository @Inject constructor(
                     date.time = rawDate
 
                     val result = entityFactory.newMovieEntity(
-                            rawDetail.imdbID.replace("tt", "").toLong(),
-                            rawDetail.imdbID,
-                            rawDetail.Title,
-                            rawDetail.Year,
-                            rawDetail.Rated,
+                            rawDetail.imdbID?.replace("tt", "")?.toLong() ?:0L,
+                            rawDetail.imdbID ?: "",
+                            rawDetail.Title ?: "",
+                            rawDetail.Year ?: "",
+                            rawDetail.Rated ?: "",
                             date,
-                            rawDetail.Runtime,
-                            rawDetail.Genre,
-                            rawDetail.Director,
-                            rawDetail.Writer,
+                            rawDetail.Runtime ?: "",
+                            rawDetail.Genre ?: "",
+                            rawDetail.Director ?: "",
+                            rawDetail.Writer ?: "",
                             actors,
-                            rawDetail.Plot,
-                            rawDetail.Language,
-                            rawDetail.Country,
-                            rawDetail.Awards,
-                            rawDetail.Poster,
+                            rawDetail.Plot ?: "",
+                            rawDetail.Language ?: "",
+                            rawDetail.Country ?: "",
+                            rawDetail.Awards ?: "",
+                            rawDetail.Poster ?: "",
                             ratings,
-                            rawDetail.Metascore,
-                            if (rawDetail.imdbRating.isNotBlank()) rawDetail.imdbRating.toFloat() else 0f,
-                            if (rawDetail.imdbVotes.isNotBlank()) rawDetail.imdbVotes.replace(",", "").toInt() else 0,
+                            rawDetail.Metascore ?: "",
+                            if (!rawDetail.imdbRating.isNullOrBlank()) rawDetail.imdbRating?.toFloat() ?: 0f else 0f,
+                            if (!rawDetail.imdbVotes.isNullOrBlank()) rawDetail.imdbVotes?.replace(",", "")?.toInt() ?: 0 else 0,
                             movieTypeEntity,
-                            if (rawDetail.totalSeasons.isNotBlank()) rawDetail.totalSeasons.toInt() else 0
+                            if (!rawDetail.totalSeasons.isNullOrBlank()) rawDetail.totalSeasons?.toInt() ?: 0 else 0
                     )
 
                     success(result)
 
                 }
 
-                if(rawDetail.Type.isNotBlank()) {
-                    restController.getMovieType(rawDetail.Type, { rawMovieType ->
+                if(!rawDetail.Type.isNullOrBlank()) {
+                    restController.getMovieType(rawDetail.Type ?: "", { rawMovieType ->
                         returnResultStep(entityFactory.newMovieTypeEntity(rawMovieType.id.toLong(), rawMovieType.name))
                     }, error)
                 } else {
@@ -106,15 +110,15 @@ class SimpleMovieQueryRepository @Inject constructor(
                             .defer {
                                 val result = arrayListOf<MovieEntity>()
                                 rawMovies.forEach { rawMovie ->
-                                    val type = movieTypes.find { it.name.toLowerCase() == rawMovie.Type.toLowerCase() } ?: MovieType(0, "")
+                                    val type = movieTypes.find { it.name.toLowerCase() == rawMovie.Type?.toLowerCase() ?: "" } ?: MovieType(0, "")
                                     result.add(
                                             entityFactory.newMovieEntity(
-                                                    rawMovie.imdbID.replace("tt", "").toLong(),
-                                                    rawMovie.imdbID,
-                                                    rawMovie.Title,
-                                                    rawMovie.Year,
+                                                    rawMovie.imdbID?.replace("tt", "")?.toLong() ?: 0L,
+                                                    rawMovie.imdbID ?: "",
+                                                    rawMovie.Title ?: "",
+                                                    rawMovie.Year ?: "",
                                                     entityFactory.newMovieTypeEntity(type.id.toLong(), type.name),
-                                                    rawMovie.Poster
+                                                    rawMovie.Poster ?: ""
                                             )
                                     )
                                 }

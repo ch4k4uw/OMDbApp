@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">OMDb App</string>
+    <string name="nothing_to_show">Nothing to show</string>
+    <string name="action_search">Search</string>
+    <string name="action_adv_filter">Filter</string>
+    <string name="search_hint">Movie title</string>
+    <string name="movie_type_dialog_title">Movies Type</string>
+    <string name="movie_type_filter_all_option">All</string>
+    <string name="year_dialog_hint">Year</string>
+    <string name="filter_dialog_options_title">Advanced Filters</string>
+    <string-array name="filter_dialog_options">
+        <item>Type</item>
+        <item>Release Year</item>
+    </string-array>
+    <string name="confirm_button">OK</string>
+    <string name="cancel_button">Cancel</string>
 </resources>

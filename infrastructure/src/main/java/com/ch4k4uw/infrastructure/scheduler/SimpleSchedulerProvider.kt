@@ -51,4 +51,14 @@ class SimpleSchedulerProvider {
                 }
 
     }
+
+    class SimpleIOSchedulerProvider @Inject constructor(): SchedulerProvider {
+        override fun <T> applySchedulers(): ObservableTransformer<T, T> =
+                ObservableTransformer { upstream ->
+                    upstream
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribeOn(Schedulers.io())
+                }
+
+    }
 }

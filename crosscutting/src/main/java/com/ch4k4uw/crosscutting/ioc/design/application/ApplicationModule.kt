@@ -31,6 +31,6 @@ interface ApplicationModule {
 
     @DesignScoped
     @Binds
-    fun bindSchedulerProvider(schedulerProvider: SimpleSchedulerProvider.SimpleAndroidSchedulerProvider): SchedulerProvider
+    fun bindSchedulerProvider(schedulerProvider: SimpleSchedulerProvider.SimpleIOSchedulerProvider): SchedulerProvider
 
 }

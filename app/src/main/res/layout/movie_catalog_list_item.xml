@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="30dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:maxHeight="400dp">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/image"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        fresco:actualImageResource="@color/colorAccent"
+        fresco:actualImageScaleType="fitCenter"
+        fresco:failureImage="@drawable/image_load_failure"
+        fresco:failureImageScaleType="fitXY"
+        fresco:retryImage="@drawable/image_retry_load"
+        fresco:retryImageScaleType="fitXY"
+        fresco:progressBarImage="@drawable/progress_medium_holo"
+        fresco:progressBarImageScaleType="centerInside"
+        fresco:progressBarAutoRotateInterval="1000"
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/title"
+
+        app:layout_constraintDimensionRatio="75:109"/>
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:maxLines="2"
+        android:ellipsize="end"
+        tools:text="@sample/movie_catalog.json/Search/Title"
+        app:layout_constraintBottom_toTopOf="@+id/year"
+        app:layout_constraintLeft_toLeftOf="@+id/image"
+        app:layout_constraintRight_toRightOf="@+id/image"/>
+
+    <TextView
+        android:id="@+id/year"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        tools:text="@sample/movie_catalog.json/Search/Year"
+        app:layout_constraintBottom_toTopOf="@+id/type"
+        app:layout_constraintLeft_toLeftOf="@+id/title"/>
+
+    <TextView
+        android:id="@+id/type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        tools:text="@sample/movie_catalog.json/Search/Type"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="@+id/year"/>
+
+</android.support.constraint.ConstraintLayout>

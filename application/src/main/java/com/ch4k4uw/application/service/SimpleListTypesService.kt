@@ -19,10 +19,8 @@ class SimpleListTypesService @Inject constructor(private val commandFactory: Mov
                                         name = movieTypeEntity.name
                                     }
                             )
-
-                            success(result)
-
                         }
+                        success(result)
                     }, error)
 
 }

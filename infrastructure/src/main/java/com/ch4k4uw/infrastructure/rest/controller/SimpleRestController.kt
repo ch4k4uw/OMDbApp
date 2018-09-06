@@ -18,8 +18,9 @@ class SimpleRestController @Inject constructor(@Named("restUrl") baseUri: String
 
     private val movieTypesDataSource: List<MovieType> = listOf(
             MovieType(1, "episode"),
-            MovieType(2, "movie"),
-            MovieType(3, "series")
+            MovieType(2, "game"),
+            MovieType(3, "movie"),
+            MovieType(4, "series")
     )
 
     init {

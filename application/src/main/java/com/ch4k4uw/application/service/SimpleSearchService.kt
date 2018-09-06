@@ -9,29 +9,7 @@ import com.ch4k4uw.domain.moviecatalog.abstraction.factory.command.MovieCatalogC
 import javax.inject.Inject
 
 class SimpleSearchService @Inject constructor(private val commandFactory: MovieCatalogCommandFactory): SearchApplicationService<Movie> {
-    override fun search(title: String, page: Int, success: (List<Movie>) -> Unit, error: (Throwable) -> Unit) =
-            commandFactory
-                    .newQuery(title, null, null, page)
-                    .exec({
-                        success(parse(it))
-                    }, error)
-
-
-    override fun search(title: String, typeId: Long, page: Int, success: (List<Movie>) -> Unit, error: (Throwable) -> Unit) =
-            commandFactory
-                    .newQuery(title, typeId, null, page)
-                    .exec({
-                        success(parse(it))
-                    }, error)
-
-    override fun search(title: String, year: Int, page: Int, success: (List<Movie>) -> Unit, error: (Throwable) -> Unit) =
-            commandFactory
-                    .newQuery(title, null, year, page)
-                    .exec({
-                        success(parse(it))
-                    }, error)
-
-    override fun search(title: String, typeId: Long, year: Int, page: Int, success: (List<Movie>) -> Unit, error: (Throwable) -> Unit) =
+    override fun search(title: String, typeId: Long?, year: Int?, page: Int, success: (List<Movie>) -> Unit, error: (Throwable) -> Unit) =
             commandFactory
                     .newQuery(title, typeId, year, page)
                     .exec({

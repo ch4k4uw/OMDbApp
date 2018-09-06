@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape
+            android:shape="rectangle">
+
+            <gradient
+                android:gradientRadius="80000%"
+                android:type="radial"
+                android:endColor="@color/placeholderImageBackgroundEnd"
+                android:startColor="@color/placeholderImageBackgroundStart" />
+
+        </shape>
+    </item>
+    <item>
+        <bitmap
+            android:src="@drawable/replay_white"
+            android:gravity="center" />
+    </item>
+
+</layer-list>

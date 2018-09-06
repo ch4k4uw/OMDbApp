@@ -1,14 +1,15 @@
-package com.ch4k4uw.crosscutting.ioc
+package com.ch4k4uw.omdbapp.ioc
 
 import com.ch4k4uw.application.dto.result.Movie
 import com.ch4k4uw.application.dto.result.MovieDetail
 import com.ch4k4uw.application.dto.result.MovieType
-import com.ch4k4uw.crosscutting.App
 import com.ch4k4uw.crosscutting.ioc.design.AppDesignComponent
 import com.ch4k4uw.crosscutting.scope.PresentationScoped
+import com.ch4k4uw.domain.abstraction.scheduler.SchedulerProvider
 import com.ch4k4uw.domain.common.abstraction.application.DetailApplicationService
 import com.ch4k4uw.domain.common.abstraction.application.SearchApplicationService
 import com.ch4k4uw.domain.moviecatalog.abstraction.application.ListTypesApplicationService
+import com.ch4k4uw.omdbapp.App
 import dagger.Component
 import dagger.android.AndroidInjectionModule
 import dagger.android.AndroidInjector
@@ -23,9 +24,11 @@ abstract class AppComponent: AndroidInjector<App> {
 
     abstract val searchService: SearchApplicationService<Movie>
 
+    abstract val schedulerProvider: SchedulerProvider
+
     @Component.Builder
     abstract class Builder: AndroidInjector.Builder<App>() {
-        abstract fun designComponent(component: AppDesignComponent): AppComponent.Builder
+        abstract fun designComponent(component: AppDesignComponent): Builder
         abstract override fun build(): AppComponent
     }
 }

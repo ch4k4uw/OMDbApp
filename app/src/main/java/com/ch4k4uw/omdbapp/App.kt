@@ -1,9 +1,10 @@
-package com.ch4k4uw.crosscutting
+package com.ch4k4uw.omdbapp
 
-import com.ch4k4uw.crosscutting.ioc.AppComponent
-import com.ch4k4uw.crosscutting.ioc.DaggerAppComponent
+import com.ch4k4uw.omdbapp.ioc.AppComponent
 import com.ch4k4uw.crosscutting.ioc.design.AppDesignComponent
 import com.ch4k4uw.crosscutting.ioc.design.DaggerAppDesignComponent
+import com.ch4k4uw.omdbapp.ioc.DaggerAppComponent
+import com.facebook.drawee.backends.pipeline.Fresco
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
 
@@ -39,11 +40,6 @@ class App: DaggerApplication() {
 
     override fun onCreate() {
         super.onCreate()
-
-        val svc1 = mAppComponent.detailService
-        val svc2 = mAppComponent.detailService
-        val svc3 = mAppComponent.detailService
-
+        Fresco.initialize(this)
     }
-
 }

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 50000% -->
+<layer-list
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape
+            android:shape="rectangle">
+            <gradient
+                android:gradientRadius="100dp"
+                android:type="radial"
+                android:endColor="@color/failureImageBackgroundEnd"
+                android:startColor="@color/failureImageBackgroundStart" />
+
+        </shape>
+    </item>
+    <item>
+        <bitmap
+            android:src="@drawable/image_broken_variant_white"
+            android:gravity="center" />
+    </item>
+
+</layer-list>

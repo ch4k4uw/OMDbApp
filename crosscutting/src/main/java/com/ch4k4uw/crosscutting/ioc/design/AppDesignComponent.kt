@@ -5,6 +5,7 @@ import com.ch4k4uw.application.dto.result.Movie
 import com.ch4k4uw.application.dto.result.MovieDetail
 import com.ch4k4uw.application.dto.result.MovieType
 import com.ch4k4uw.crosscutting.scope.DesignScoped
+import com.ch4k4uw.domain.abstraction.scheduler.SchedulerProvider
 import com.ch4k4uw.domain.common.abstraction.application.DetailApplicationService
 import com.ch4k4uw.domain.common.abstraction.application.SearchApplicationService
 import com.ch4k4uw.domain.moviecatalog.abstraction.application.ListTypesApplicationService
@@ -19,6 +20,8 @@ interface AppDesignComponent {
     val listTypesService: ListTypesApplicationService<MovieType>
 
     val searchService: SearchApplicationService<Movie>
+
+    val schedulerProvider: SchedulerProvider
 
     @Component.Builder
     interface Builder {

@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class SimpleDetailService @Inject constructor(private val commandFactory: MovieDetailCommandFactory): DetailApplicationService<MovieDetail> {
     override fun detail(id2: String, success: (MovieDetail) -> Unit, error: (Throwable) -> Unit) = commandFactory.newQuery(id2).exec({
-        movieDetail {
+        success(movieDetail {
             title = it.title
             year = it.year
             rated = it.rated
@@ -40,7 +40,7 @@ class SimpleDetailService @Inject constructor(private val commandFactory: MovieD
                 name = it.type.name
             }
             totalSeasons = it.totalSeasons
-        }
+        })
     }, error)
 
 }
