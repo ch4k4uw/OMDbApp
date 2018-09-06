@@ -7,8 +7,7 @@ import org.junit.Before
 import org.junit.Test
 
 import org.junit.runner.RunWith
-import org.mockito.ArgumentMatchers.anyInt
-import org.mockito.ArgumentMatchers.anyString
+import org.mockito.ArgumentMatchers.*
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.junit.MockitoJUnitRunner
@@ -33,18 +32,18 @@ class SimpleMovieCatalogCommandFactoryTest {
     fun setUp() {
         Mockito.doAnswer {
             return@doAnswer Mockito.mock(MovieQueryRepositoryCatalogSpecification::class.java)
-        }.`when`(specFactory).newCatalogSpec(anyString(), anyInt())
+        }.`when`(specFactory).newCatalogSpec(anyString(), any(), any(), anyInt())
 
     }
 
     @Test
     fun newQuery() {
         SimpleMovieCatalogCommandFactory(repository, specFactory)
-                .newQuery("1", 2)
+                .newQuery("1", null, null, 2)
                 .exec({}, {})
 
         Mockito.verify(specFactory, Mockito.atMost(1))
-                .newCatalogSpec("1", 2)
+                .newCatalogSpec("1", null, null,2)
 
         Mockito.verify(repository, Mockito.atMost(1))
                 .find(any(), any(), any())
