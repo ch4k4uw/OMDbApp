@@ -36,9 +36,9 @@ class SimpleMovieCatalogQueryTest {
     fun setUp() {
         doAnswer {
             return@doAnswer mock(MovieQueryRepositoryCatalogSpecification::class.java)
-        }.`when`(specFactory).newCatalogSpec(anyString(), any(), any(), anyInt())
+        }.`when`(specFactory).newCatalogSpec(anyString(), anyLong(), anyInt(), anyInt())
 
-        query = SimpleMovieCatalogQuery("1", null, null, 2, repository, specFactory)
+        query = SimpleMovieCatalogQuery("1", 2L, 3, 4, repository, specFactory)
 
     }
 
@@ -47,7 +47,7 @@ class SimpleMovieCatalogQueryTest {
         query.exec({ }, { })
 
         verify(specFactory, atMost(1))
-                .newCatalogSpec("1", null, null,2)
+                .newCatalogSpec("1", 2L, 3,4)
 
         verify(repository, atMost(1))
                 .find(any(), any(), any())

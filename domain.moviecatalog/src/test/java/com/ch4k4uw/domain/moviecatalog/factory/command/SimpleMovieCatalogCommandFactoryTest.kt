@@ -32,18 +32,18 @@ class SimpleMovieCatalogCommandFactoryTest {
     fun setUp() {
         Mockito.doAnswer {
             return@doAnswer Mockito.mock(MovieQueryRepositoryCatalogSpecification::class.java)
-        }.`when`(specFactory).newCatalogSpec(anyString(), any(), any(), anyInt())
+        }.`when`(specFactory).newCatalogSpec(anyString(), anyLong(), anyInt(), anyInt())
 
     }
 
     @Test
     fun newQuery() {
         SimpleMovieCatalogCommandFactory(repository, specFactory)
-                .newQuery("1", null, null, 2)
+                .newQuery("1", 2, 3, 4)
                 .exec({}, {})
 
         Mockito.verify(specFactory, Mockito.atMost(1))
-                .newCatalogSpec("1", null, null,2)
+                .newCatalogSpec("1", 2, 3,4)
 
         Mockito.verify(repository, Mockito.atMost(1))
                 .find(any(), any(), any())
