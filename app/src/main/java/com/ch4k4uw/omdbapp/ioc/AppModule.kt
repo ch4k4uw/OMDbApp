@@ -8,7 +8,7 @@ import com.ch4k4uw.omdbapp.mvp.mainfragment.MainModule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
-@Module
+@Module(includes = [ComposerProviderModule::class, UtilModule::class])
 interface AppModule {
     @FragmentScoped
     @ContributesAndroidInjector(modules = [MainModule::class])

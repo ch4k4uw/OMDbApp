@@ -1,7 +1,7 @@
 package com.ch4k4uw.domain.moviecatalog.command
 
 import com.ch4k4uw.domain.moviecatalog.abstraction.command.MovieTypeQuery
-import com.ch4k4uw.domain.moviecatalog.abstraction.factory.specification.MovieTypeQueryRepositoryListSpeciticationFactory
+import com.ch4k4uw.domain.moviecatalog.abstraction.factory.specification.MovieTypeQueryRepositoryListSpecificationFactory
 import com.ch4k4uw.domain.moviecatalog.abstraction.repository.MovieTypeQueryRepository
 import com.ch4k4uw.domain.moviecatalog.abstraction.repository.specification.MovieTypeQueryRepositoryListSpecitication
 import org.junit.Before
@@ -29,7 +29,7 @@ class SimpleMovieTypeQueryTest {
     lateinit var repository: MovieTypeQueryRepository
 
     @Mock
-    lateinit var specFactory: MovieTypeQueryRepositoryListSpeciticationFactory
+    lateinit var specFactory: MovieTypeQueryRepositoryListSpecificationFactory
 
     @Before
     fun setUp() {

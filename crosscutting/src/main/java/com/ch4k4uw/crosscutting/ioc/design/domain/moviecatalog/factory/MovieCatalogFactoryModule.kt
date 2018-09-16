@@ -4,11 +4,11 @@ import com.ch4k4uw.crosscutting.scope.DesignScoped
 import com.ch4k4uw.domain.moviecatalog.abstraction.factory.command.MovieCatalogCommandFactory
 import com.ch4k4uw.domain.moviecatalog.abstraction.factory.command.MovieDetailCommandFactory
 import com.ch4k4uw.domain.moviecatalog.abstraction.factory.command.MovieTypeCommandFactory
-import com.ch4k4uw.domain.moviecatalog.abstraction.factory.specification.MovieTypeQueryRepositoryListSpeciticationFactory
+import com.ch4k4uw.domain.moviecatalog.abstraction.factory.specification.MovieTypeQueryRepositoryListSpecificationFactory
 import com.ch4k4uw.domain.moviecatalog.factory.command.SimpleMovieCatalogCommandFactory
 import com.ch4k4uw.domain.moviecatalog.factory.command.SimpleMovieDetailCommandFactory
 import com.ch4k4uw.domain.moviecatalog.factory.command.SimpleMovieTypeCommandFactory
-import com.ch4k4uw.infrastructure.factory.specification.SimpleMovieTypeQueryRepositoryListSpeciticationFactory
+import com.ch4k4uw.infrastructure.factory.specification.SimpleMovieTypeQueryRepositoryListSpecificationFactory
 import dagger.Binds
 import dagger.Module
 
@@ -28,6 +28,6 @@ interface MovieCatalogFactoryModule {
 
     @DesignScoped
     @Binds
-    fun bindMovieTypeQueryRepositoryListSpecFactory(specFactory: SimpleMovieTypeQueryRepositoryListSpeciticationFactory): MovieTypeQueryRepositoryListSpeciticationFactory
+    fun bindMovieTypeQueryRepositoryListSpecFactory(specFactory: SimpleMovieTypeQueryRepositoryListSpecificationFactory): MovieTypeQueryRepositoryListSpecificationFactory
 
 }

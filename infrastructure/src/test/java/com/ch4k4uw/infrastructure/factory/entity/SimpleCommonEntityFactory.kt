@@ -8,9 +8,8 @@ import com.ch4k4uw.domain.common.abstraction.value.MovieRatingValue
 import com.ch4k4uw.infrastructure.entity.SimpleMovieEntity
 import com.ch4k4uw.infrastructure.entity.SimpleMovieTypeEntity
 import java.util.*
-import javax.inject.Inject
 
-class SimpleCommonEntityFactory @Inject constructor(): CommonEntityFactory {
+class SimpleCommonEntityFactory: CommonEntityFactory {
     override val emptyMovieTypeEntity: MovieTypeEntity
         get() = SimpleMovieTypeEntity.Empty
 

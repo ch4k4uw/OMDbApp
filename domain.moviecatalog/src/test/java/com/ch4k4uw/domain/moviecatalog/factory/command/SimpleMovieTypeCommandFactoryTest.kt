@@ -1,13 +1,11 @@
 package com.ch4k4uw.domain.moviecatalog.factory.command
 
-import com.ch4k4uw.domain.moviecatalog.abstraction.command.MovieTypeQuery
-import com.ch4k4uw.domain.moviecatalog.abstraction.factory.specification.MovieTypeQueryRepositoryListSpeciticationFactory
+import com.ch4k4uw.domain.moviecatalog.abstraction.factory.specification.MovieTypeQueryRepositoryListSpecificationFactory
 import com.ch4k4uw.domain.moviecatalog.abstraction.repository.MovieTypeQueryRepository
 import com.ch4k4uw.domain.moviecatalog.abstraction.repository.specification.MovieTypeQueryRepositoryListSpecitication
 import org.junit.Before
 import org.junit.Test
 
-import org.junit.Assert.*
 import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito
@@ -28,7 +26,7 @@ class SimpleMovieTypeCommandFactoryTest {
     lateinit var repository: MovieTypeQueryRepository
 
     @Mock
-    lateinit var specFactory: MovieTypeQueryRepositoryListSpeciticationFactory
+    lateinit var specFactory: MovieTypeQueryRepositoryListSpecificationFactory
 
     @Before
     fun setUp() {

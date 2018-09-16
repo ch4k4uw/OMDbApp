@@ -7,9 +7,13 @@ import android.support.v7.widget.Toolbar
 import android.view.View
 import android.widget.ProgressBar
 import com.ch4k4uw.omdbapp.R
+import com.ch4k4uw.omdbapp.fragmentutil.abstraction.AppFragmentManager
 import dagger.android.support.AndroidSupportInjection
+import javax.inject.Inject
 
 open class AppFragment: Fragment(), com.ch4k4uw.omdbapp.mvp.View {
+    @Inject
+    lateinit var appFragmentManager: AppFragmentManager
     lateinit var toolbar: Toolbar
 
     private var progressInstances = 0

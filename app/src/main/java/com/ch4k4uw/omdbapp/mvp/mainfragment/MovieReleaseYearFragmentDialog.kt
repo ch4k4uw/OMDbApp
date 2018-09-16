@@ -23,8 +23,9 @@ class MovieReleaseYearFragmentDialog: DialogFragment() {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val displaymetrics = DisplayMetrics()
+        val displayMetrics = DisplayMetrics()
         val text = EditText(activity)
+        text.id = R.id.release_year
         text.hint = getString(R.string.year_dialog_hint)
         text.setText(lastYear)
         text.inputType = InputType.TYPE_CLASS_NUMBER
@@ -54,7 +55,7 @@ class MovieReleaseYearFragmentDialog: DialogFragment() {
             false
         }
 
-        text.minWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50f, displaymetrics).toInt()
+        text.minWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50f, displayMetrics).toInt()
         return AlertDialog.Builder(context!!)
                 .setView(text)
                 .setPositiveButton(R.string.confirm_button) { dialog, _ ->

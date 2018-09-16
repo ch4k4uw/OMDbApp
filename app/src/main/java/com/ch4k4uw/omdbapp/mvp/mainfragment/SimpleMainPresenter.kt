@@ -3,22 +3,21 @@ package com.ch4k4uw.omdbapp.mvp.mainfragment
 import com.ch4k4uw.application.dto.result.Movie
 import com.ch4k4uw.application.dto.result.MovieDetail
 import com.ch4k4uw.application.dto.result.MovieType
-import com.ch4k4uw.domain.abstraction.scheduler.SchedulerProvider
 import com.ch4k4uw.domain.common.abstraction.application.DetailApplicationService
 import com.ch4k4uw.domain.common.abstraction.application.SearchApplicationService
 import com.ch4k4uw.domain.moviecatalog.abstraction.application.ListTypesApplicationService
 import com.ch4k4uw.omdbapp.mvp.mainfragment.abstraction.MainPresenter
 import com.ch4k4uw.omdbapp.mvp.mainfragment.abstraction.MainView
+import com.ch4k4uw.omdbapp.rx.ComposerProvider
 import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.BehaviorSubject
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class SimpleMainPresenter @Inject constructor(
         private val searchSvc: SearchApplicationService<Movie>,
         private val movieTypeSvc: ListTypesApplicationService<MovieType>,
         private val detailMovieSvc: DetailApplicationService<MovieDetail>,
-        scheduler: SchedulerProvider): MainPresenter {
+        composer: ComposerProvider): MainPresenter {
 
     private var mView: MainView? = null
     private var mMovies = arrayListOf<Movie>()
@@ -34,8 +33,7 @@ class SimpleMainPresenter @Inject constructor(
 
     init {
         mSearchSubscription = mSearchSubject
-                .debounce(700, TimeUnit.MILLISECONDS)
-                .compose(scheduler.applySchedulers())
+                .compose(composer.stream().applyDebounce(500).applySchedulers().apply())
                 .distinctUntilChanged()
                 .subscribe {
                     mSearchQuery = it

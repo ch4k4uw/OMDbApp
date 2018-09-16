@@ -4,7 +4,7 @@ import com.ch4k4uw.domain.abstraction.factory.specification.LongIdRepositorySpec
 import com.ch4k4uw.domain.common.abstraction.entity.MovieTypeEntity
 import com.ch4k4uw.domain.moviecatalog.abstraction.repository.specification.MovieTypeQueryRepositoryListSpecitication
 
-interface MovieTypeQueryRepositoryListSpeciticationFactory: LongIdRepositorySpecificationFactory<MovieTypeEntity> {
+interface MovieTypeQueryRepositoryListSpecificationFactory: LongIdRepositorySpecificationFactory<MovieTypeEntity> {
     fun newListSpec(): MovieTypeQueryRepositoryListSpecitication
 
 }

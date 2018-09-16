@@ -25,6 +25,10 @@ android {
         }
     }
 
+    aaptOptions {
+        noCompress "json"
+    }
+
 }
 
 dependencies {

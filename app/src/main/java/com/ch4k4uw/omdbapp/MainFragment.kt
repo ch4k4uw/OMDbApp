@@ -140,17 +140,12 @@ class MainFragment: AppFragment(), MainView {
 
         fragment.arguments = args
 
-        fragmentManager
-                ?.beginTransaction()
-                ?.setCustomAnimations(
-                        R.anim.slide_in_right,
-                        R.anim.slide_out_left,
-                        android.R.anim.slide_in_left,
-                        android.R.anim.slide_out_right
-                )
-                ?.replace(R.id.fragment_container, fragment, "detail_fragment")
-                ?.addToBackStack(null)
-                ?.commit()
+        appFragmentManager
+                .beginTransaction(fragmentManager!!)
+                .animate()
+                .replace(R.id.fragment_container, fragment, "detail_fragment")
+                .addToBackStack()
+                .commit()
 
     }
 

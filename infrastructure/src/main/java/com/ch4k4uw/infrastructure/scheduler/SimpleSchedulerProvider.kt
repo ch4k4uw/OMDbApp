@@ -42,7 +42,20 @@ class SimpleSchedulerProvider {
         }
     }
 
-    class SimpleAndroidSchedulerProvider @Inject constructor(): SchedulerProvider {
+    class SimpleSchedulerProviderChooser @Inject constructor(private val type: String?): SchedulerProvider {
+        override fun <T> applySchedulers(): ObservableTransformer<T, T> =
+                ObservableTransformer { upstream ->
+                    upstream.compose(when (type) {
+                        "io" -> SimpleSchedulerProvider.IoScheduler.applySchedulers()
+                        "droid" -> SimpleSchedulerProvider.AndroidScheduler.applySchedulers()
+                        "comp" -> SimpleSchedulerProvider.ComputationScheduler.applySchedulers()
+                        else -> SimpleSchedulerProvider.IoScheduler.applySchedulers()
+                    })
+                }
+
+    }
+
+    open class SimpleAndroidSchedulerProvider @Inject constructor(): SchedulerProvider {
         override fun <T> applySchedulers(): ObservableTransformer<T, T> =
                 ObservableTransformer { upstream ->
                     upstream
