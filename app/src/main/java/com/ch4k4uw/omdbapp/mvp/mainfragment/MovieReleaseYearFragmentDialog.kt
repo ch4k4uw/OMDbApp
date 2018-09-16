@@ -16,7 +16,7 @@ import com.ch4k4uw.omdbapp.R
 
 class MovieReleaseYearFragmentDialog: DialogFragment() {
     var onYearConfirmed = {_:Int?->}
-    private var lastYear = ""
+    var lastYear = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         retainInstance = true
@@ -40,7 +40,7 @@ class MovieReleaseYearFragmentDialog: DialogFragment() {
             }
         }
 
-        text.setOnEditorActionListener { v, actionId, event ->
+        text.setOnEditorActionListener { _, actionId, _ ->
             if(actionId == EditorInfo.IME_ACTION_DONE) {
                 confirm()
                 dialog.dismiss()

@@ -128,7 +128,8 @@ class MainFragment: AppFragment(), MainView {
     }
 
     override fun resetFiltersState() {
-        movieTypesDialog.lastSelection = -1
+        movieTypesDialog.lastSelection = 0
+        movieReleaseYearDialog.lastYear = ""
     }
 
     override fun showMovieDetails(movie: MovieDetail) {
