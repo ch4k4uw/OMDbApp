@@ -13,4 +13,10 @@ class SimpleConstantsModule: ConstantsModule {
     @Named("app_animations")
     override fun provideAppAnimationsConst(): Boolean
             = true
+
+    @PresentationScoped
+    @Provides
+    @Named("app_search_debounce")
+    override fun provideSearchDebounceConst(): Boolean
+            = true
 }

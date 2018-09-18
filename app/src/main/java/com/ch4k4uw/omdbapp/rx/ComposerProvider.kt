@@ -4,6 +4,7 @@ import com.ch4k4uw.domain.abstraction.scheduler.SchedulerProvider
 import io.reactivex.ObservableTransformer
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import javax.inject.Named
 
 interface ComposerProvider {
     fun stream(): Stream
@@ -19,7 +20,7 @@ interface ComposerProvider {
 
 }
 
-class SimpleComposerProvider @Inject constructor(private val schedulerProvider: SchedulerProvider): ComposerProvider {
+class SimpleComposerProvider @Inject constructor(@Named("app_search_debounce") private val enableDebounce: Boolean, private val schedulerProvider: SchedulerProvider): ComposerProvider {
     override fun stream(): ComposerProvider.Stream = object: ComposerProvider.Stream {
         private var debounce: Long? = null
         private var scheduler: Boolean = false
@@ -36,14 +37,15 @@ class SimpleComposerProvider @Inject constructor(private val schedulerProvider: 
 
         override fun <T> apply(): ObservableTransformer<T, T>
                 = ObservableTransformer { upstream ->
-                    if(scheduler) {
-                        upstream.compose(schedulerProvider.applySchedulers())
-                    }
-                    if(debounce != null) {
-                        upstream.debounce(debounce!!, TimeUnit.MILLISECONDS)
-                    }
-            upstream
-                }
+            var result = upstream
+            if (debounce != null && enableDebounce) {
+                result = result.debounce(debounce!!, TimeUnit.MILLISECONDS)
+            }
+            if (scheduler) {
+                result = result.compose(schedulerProvider.applySchedulers())
+            }
+            result
+        }
 
     }
 

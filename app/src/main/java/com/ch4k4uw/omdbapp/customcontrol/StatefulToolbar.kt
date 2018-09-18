@@ -34,9 +34,9 @@ class StatefulToolbar : Toolbar {
             val count = result.menuSize
             for (i in 0 until count) {
                 val menuItem = menu.getItem(i)
-                result.menuItemsVisibility.put(menuItem.getItemId(), menuItem.isVisible())
-                if (menuItem.isCheckable()) {
-                    result.menuItemsCheckState.put(menuItem.getItemId(), menuItem.isChecked())
+                result.menuItemsVisibility.put(menuItem.itemId, menuItem.isVisible)
+                if (menuItem.isCheckable) {
+                    result.menuItemsCheckState.put(menuItem.itemId, menuItem.isChecked)
                 }
             }
         }
@@ -90,8 +90,8 @@ class StatefulToolbar : Toolbar {
                         for (i in 0 until pendingStates!!.size()) {
                             val id = pendingStates!!.keyAt(i)
                             if (id != getId()) {
-                                val v = findViewById<View?>(id)
-                                v?.restoreHierarchyState(pendingStates)
+                                findViewById<View?>(id)
+                                        ?.restoreHierarchyState(pendingStates)
                             }
                         }
                         pendingStates = null
